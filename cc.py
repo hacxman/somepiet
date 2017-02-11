@@ -135,27 +135,63 @@ class Context(object):
         i = png.from_array(img, 'RGB')
         i.save(name)
 
-def emit_out_char(context):
+def emit_isn(context, hue_change, light_change):
     newcolor = Color(context.last.color)
-    newcolor.darker(2)
-    newcolor.huer(5)
+    newcolor.huer(hue_change)
+    newcolor.darker(light_change)
     context.add_isn(Instruction(newcolor))
 
 
-def emit_out_number(context):
-    color = context.last.color
-    newcolor = Color(color)
-    newcolor.darker()
-    newcolor.huer(5)
-    context.add_isn(Instruction(newcolor))
+def emit_add(context):
+    emit_isn(context, 1, 0)
 
+def emit_div(context):
+    emit_isn(context, 2, 0)
+
+def emit_greater(context):
+    emit_isn(context, 3, 0)
+
+def emit_dup(context):
+    emit_isn(context, 4, 0)
+
+def emit_in_char(context):
+    emit_isn(context, 5, 0)
 
 def emit_push(context):
-    color = context.last.color
-    newcolor = Color(color)
-    newcolor.darker()
-    context.add_isn(Instruction(newcolor))
+    emit_isn(context, 0, 1)
 
+def emit_sub(context):
+    emit_isn(context, 1, 1)
+
+def emit_mod(context):
+    emit_isn(context, 2, 1)
+
+def emit_pointer(context):
+    emit_isn(context, 3, 1)
+
+def emit_roll(context):
+    emit_isn(context, 4, 1)
+
+def emit_out_number(context):
+    emit_isn(context, 5, 1)
+
+def emit_pop(context):
+    emit_isn(context, 0, 2)
+
+def emit_mul(context):
+    emit_isn(context, 1, 2)
+
+def emit_not(context):
+    emit_isn(context, 2, 2)
+
+def emit_switch(context):
+    emit_isn(context, 3, 2)
+
+def emit_in_number(context):
+    emit_isn(context, 4, 2)
+
+def emit_out_char(context):
+    emit_isn(context, 5, 2)
 
 def emit_number(context, number):
     isn = context.last
